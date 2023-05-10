@@ -1,0 +1,16 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>User Authentication</h1>
+
+Welcome to Home page.
+
+<AuthorizeView>
+    <Authorized>
+        Welcome UserName
+    </Authorized>
+    <NotAuthorized>
+        You are not authorized. Go to <a href="/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>

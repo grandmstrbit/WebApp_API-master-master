@@ -1,0 +1,54 @@
+﻿@page "/add"
+@using APICryptography
+@using APILibrary.Models
+@using WebClient.Services.User
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Add user</PageTitle>
+
+<Form Model="@User"
+      LabelColSpan="8"
+      WrapperColSpan="8">
+    <FormItem Label="Username">
+        <Input @bind-Value="@context.Name" />
+    </FormItem>
+    <FormItem Label="Password">
+        <InputPassword @bind-Value="@context.Password" />
+    </FormItem>
+    <FormItem Label="Email">
+        <Input @bind-Value="@context.Email" />
+    </FormItem>
+    <FormItem WrapperColOffset="8" WrapperColSpan="8">
+        <Button Type="@ButtonType.Primary" HtmlType="submit" OnClick="CreateUser">
+            Submit
+        </Button>
+    </FormItem>
+</Form>
+
+@code {
+    
+    [Inject]
+    private UserService UserService { get; set; } = null!;
+
+    [Inject]
+    private IMessageService MessageService { get; set; } = null!;
+
+    private User? User { get; set; } = new User();
+
+    private async Task CreateUser()
+    {
+        if (User != null)
+        {
+            var ret = await UserService.CreateAsync(User);
+            if (ret.IsSuccessStatusCode)
+            {
+                await MessageService.Success("Success");
+            }
+            else
+            {
+                await MessageService.Error("Error");
+            }
+        }
+    }
+
+}
